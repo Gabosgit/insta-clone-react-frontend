@@ -26,6 +26,12 @@ export function BottomNav() {
           Reels
         </Link>
         <Link
+          to='/'
+          className='inline-flex flex-col items-center justify-center px-5'
+        >
+          Tagged
+        </Link>
+        <Link
           to='/profile'
           className='inline-flex flex-col items-center justify-center px-5'
         >

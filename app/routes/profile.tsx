@@ -23,6 +23,20 @@ export default function ProfileLayout() {
         >
           Reels
         </NavLink>
+        <NavLink
+          to='/profile/tagged/grid'
+          className='text-stone-100 flex-1 text-center p-4'
+          style={({ isActive }) => (isActive ? activeLinkStyle : undefined)}
+        >
+          Tagged
+        </NavLink>
+        <NavLink
+          to='/profile/highlights/grid'
+          className='text-stone-100 flex-1 text-center p-4'
+          style={({ isActive }) => (isActive ? activeLinkStyle : undefined)}
+        >
+          Highlights
+        </NavLink>
       </div>
       <main>
         <Outlet />
