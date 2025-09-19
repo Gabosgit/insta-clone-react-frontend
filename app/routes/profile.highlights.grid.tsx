@@ -16,10 +16,13 @@ export async function loader() {
 export default function HighlightsGrid() {
   const highlights = useLoaderData() as Highlight[];
   return (
-    <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-      {highlights.map((highlight) => (
-        <HighlightCard key={highlight.id} highlight={highlight} />
-      ))}
+    <div className="flex">
+      <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+        {highlights.map((highlight) => (
+          <HighlightCard key={highlight.id} highlight={highlight} />
+        ))}
+      </div>
     </div>
+    
   );
 }

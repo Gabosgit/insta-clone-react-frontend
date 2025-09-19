@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
 
 html,
 body {
@@ -13,4 +9,13 @@ body {
     color-scheme: dark;
   }
 }
-/* sudo chown Gabo:staff app/services/api.ts */
+
+main {
+  @apply
+  flex-grow
+}
+
+footer {
+  @apply
+  bg-stone-100
+}
