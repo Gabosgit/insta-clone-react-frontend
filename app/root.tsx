@@ -35,18 +35,22 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <>
-      <header className='sticky top-0 z-50 w-full border-b bg-white'>
-        <nav className='container mx-auto px-4 py-3'>
-          <h1 className='text-xl font-bold'>Instagram</h1>
-        </nav>
-      </header>
-      <main className='container mx-auto p-4'>
-        <Outlet />
-      </main>
-      <footer className='py-4 text-center text-sm text-gray-500'>
-        <ButtomNav/>
-        <p>&copy; 2025 Webeet</p>
-      </footer>
+      <div className="flex flex-col min-h-screen">
+        <header className='sticky top-0 z-50 w-full border-b bg-white'>
+          <nav className='mx-auto px-8 py-3'>
+            <h1 className='text-xl font-bold'>Instagram</h1>
+          </nav>
+        </header>
+
+        <div className="flex-grow w-full bg-slate-900">
+          <Outlet />
+        </div>
+        <div className='py-4 text-center text-sm text-gray-500 bg-slate-800 mt-10 mb-16'>
+          <p>&copy; 2025 Webeet</p>
+        </div>
+      </div>
+
+      <ButtomNav/>
     </>
   );
 }
