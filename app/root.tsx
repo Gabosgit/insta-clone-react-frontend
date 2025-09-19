@@ -8,6 +8,7 @@ import {
   useRouteError,
 } from "react-router";
 import stylesheet from "./app.css?url";
+import ButtomNav from "./components/BottomNav"
 
 export function links() {
   return [{ rel: "stylesheet", href: stylesheet }];
@@ -43,6 +44,7 @@ export default function App() {
         <Outlet />
       </main>
       <footer className='py-4 text-center text-sm text-gray-500'>
+        <ButtomNav/>
         <p>&copy; 2025 Webeet</p>
       </footer>
     </>
