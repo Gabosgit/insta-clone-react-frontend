@@ -1,5 +1,4 @@
-import { z } from "zod";
-
+import { z } from 'zod';
 
 // First, we declare a zod schema
 const taggedSchema = z.object({
@@ -8,10 +7,9 @@ const taggedSchema = z.object({
   tagged_user_id: z.number(),
   tagger_user_id: z.number(),
   // Add the new fields from the posts table
-  img_url: z.string().url(),
+  img_url: z.string().url().nullable(),
   caption: z.string().nullable(),
 });
-
 
 const taggedPostsSchema = z.array(taggedSchema);
 
