@@ -50,8 +50,7 @@ export function CreatePostForm() {
   };
 
   return (
-    <div className="flex-grow w-full bg-amber-400">
-        <div className="max-w-md mx-auto p-4 bg-white rounded-lg shadow-md">
+      <div className="max-w-md mx-auto mt-20 p-4 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-4 text-center">Create New Post</h2>
         <Form
             method="post"
@@ -124,8 +123,6 @@ export function CreatePostForm() {
             {isSubmitting ? "Creating..." : "Create Post"}
             </button>
         </Form>
-        </div>
-    </div>
-    
+      </div>
   );
 }
