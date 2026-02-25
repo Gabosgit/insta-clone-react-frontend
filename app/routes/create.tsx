@@ -3,7 +3,6 @@ import { redirect } from "react-router";
 import { CreatePostForm } from "~/components/CreatePostForm";
 import { api } from "~/services/api";
 import { createPostInputSchema } from "~/schemas/post.schema";
-import { z } from "zod";
 
 export async function action({ request }: reactRouter.ActionFunctionArgs) {
   const formData = await request.formData();
@@ -50,7 +49,7 @@ export async function action({ request }: reactRouter.ActionFunctionArgs) {
 
 export default function CreatePostPage() {
   return (
-    <div className="flex-grow h-full py-8 bg-red-500">
+    <div className="flex-grow h-full py-8">
       <CreatePostForm />
     </div>
   );
