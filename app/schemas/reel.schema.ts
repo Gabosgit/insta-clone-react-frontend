@@ -10,8 +10,20 @@ const reelSchema = z.object({
 });
 
 const reelsSchema = z.array(reelSchema);
-
 type Reel = z.infer<typeof reelSchema>;
 
 export { reelSchema, reelsSchema };
 export type { Reel };
+  
+// Schema for creating a new reel (for frontend validation)
+export const createReelInputSchema = z
+  .object({
+    caption: z.string().min(1, "Caption is required.").max(255).optional(),
+    videoUrl: z.preprocess(
+      (val) => (val === '' ? undefined : val),
+      z.string().url({ message: "A valid video URL is required." })
+    ), // For video URL input, now required
+  });
+
+export type CreateReelInput = z.infer<typeof createReelInputSchema>;
+
