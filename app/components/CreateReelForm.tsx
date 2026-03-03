@@ -1,35 +1,24 @@
 import React, { useState } from "react";
 import { Form, useNavigation } from "react-router";
-import { createPostInputSchema } from "~/schemas/post.schema";
+import { createReelInputSchema } from "~/schemas/reel.schema";
 import { z } from "zod";
 
 type FormErrors = z.ZodIssue[];
 
-export function CreatePostForm() {
+export function CreateReelForm() {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [caption, setCaption] = useState("");
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [videoUrl, setVideoUrl] = useState("");
   const [errors, setErrors] = useState<FormErrors>([]);
-  const [fileSizeError, setFileSizeError] = useState(false);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleVideoUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    setFileSizeError(false);
-    if (file) {
-      if (file.size > 999 * 1024) {
-        console.error("File size exceeds 999kb limit.");
-        setFileSizeError(true);
-        setImageFile(null);
-        setPreviewUrl(null);
-        return;
-      } 
-      
-      setImageFile(file);
-      setPreviewUrl(URL.createObjectURL(file));
+    if (videoUrl) {
+      setVideoUrl(videoUrl);
     } else {
-      setImageFile(null);
+      setVideoUrl("");
       setPreviewUrl(null);
     }
   };
@@ -39,9 +28,9 @@ export function CreatePostForm() {
     setErrors([]); // Clear previous errors
 
     // Client-side validation
-    const validationResult = createPostInputSchema.safeParse({
+    const validationResult = createReelInputSchema.safeParse({
       caption,
-      image: imageFile || undefined,
+      videoUrl,
     });
 
     if (!validationResult.success) {
@@ -52,7 +41,7 @@ export function CreatePostForm() {
     // If validation passes, proceed with form submission
     const formData = new FormData();
     if (caption) formData.append("caption", caption);
-    if (imageFile) formData.append("file", imageFile); // 'file' matches backend expected field name
+    if (videoUrl) formData.append("video_url", videoUrl); // 'video_url' matches backend expected field name
 
     // Programmatically submit the form data using useNavigation's form ref
     // (Alternatively, use a ref on the Form component if more complex logic is needed before submission)
@@ -61,7 +50,7 @@ export function CreatePostForm() {
 
   return (
       <div className="max-w-md mx-auto mt-20 p-4 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4 text-center">Create New Post</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">Create New Reel</h2>
         <Form
             method="post"
             encType="multipart/form-data"
@@ -74,20 +63,21 @@ export function CreatePostForm() {
                 htmlFor="image"
                 className="block text-sm font-medium text-gray-700 mb-1"
             >
-                Upload Image
+                Video
             </label>
             <input
-                type="file"
-                id="image"
-                name="image"
-                accept="image/*"
-                onChange={handleImageChange}
+                type="text"
+                id="video"
+                name="video"
+                accept="video/*"
+                onChange={handleVideoUrlChange}
                 className="block w-full text-sm text-gray-500
                 file:mr-4 file:py-2 file:px-4
                 file:rounded-full file:border-0
                 file:text-sm file:font-semibold
                 file:bg-blue-50 file:text-blue-700
                 hover:file:bg-blue-100"
+                placeholder="Insert a video URL..."
             />
             {previewUrl && (
                 <img
@@ -96,17 +86,11 @@ export function CreatePostForm() {
                 className="mt-4 max-h-60 w-auto rounded-md shadow-sm mx-auto"
                 />
             )}
-            {errors.find((e) => e.path[0] === "image") && (
+            {errors.find((e) => e.path[0] === "videoUrl") && (
                 <p className="mt-2 text-sm text-red-600">
-                  {errors.find((e) => e.path[0] === "image")?.message}
+                  {errors.find((e) => e.path[0] === "videoUrl")?.message}
                 </p>
             )}
-            <p className={`${fileSizeError ? "text-red-600" : "text-gray-300"} mt-2 text-sm`}>
-              {
-                fileSizeError ? "File size exceeds 999kb limit." 
-                : "Maximum file size: 999kb."
-              }
-            </p>
           </div>
 
           {/* Caption Field */}
@@ -138,7 +122,7 @@ export function CreatePostForm() {
           disabled={isSubmitting}
           className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isSubmitting ? "Creating..." : "Create Post"}
+            {isSubmitting ? "Creating..." : "Create Reel"}
           </button>
         </Form>
       </div>

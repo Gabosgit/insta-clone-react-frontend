@@ -17,7 +17,7 @@ export default function BottomNav() {
           to="/create"
           className='inline-flex flex-col items-center justify-center px-5'
         >
-          ➕
+          ➕Create
         </Link>
         <Link
           to='/profile/reels/grid'

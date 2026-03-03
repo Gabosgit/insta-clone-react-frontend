@@ -8,7 +8,7 @@ import {
   useRouteError,
 } from "react-router";
 import stylesheet from "./app.css?url";
-import ButtomNav from "./components/BottomNav"
+import SideNav from "./components/SideNav"
 
 export function links() {
   return [{ rel: "stylesheet", href: stylesheet }];
@@ -35,22 +35,23 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <>
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col items-center h-full">
         <header className='sticky top-0 z-50 w-full border-b bg-white'>
           <nav className='mx-auto px-8 py-3'>
-            <h1 className='text-xl font-bold'>Instagram</h1>
+            <h1 className='text-xl font-bold'>Instagram<b>Clone</b></h1>
           </nav>
         </header>
 
-        <div className="flex-grow w-full bg-slate-900">
+        <SideNav/>
+
+        <div className="flex-1 flex flex-col w-2/3">
           <Outlet />
         </div>
-        <div className='py-4 text-center text-sm text-gray-500 bg-slate-800 mt-10 mb-16'>
-          <p>&copy; 2025 Webeet</p>
+
+        <div className='w-full py-4 text-center text-sm text-gray-500 bg-slate-800 mt-10'>
+          <p>&copy; 2025 InstagramClone</p>
         </div>
       </div>
-
-      <ButtomNav/>
     </>
   );
 }

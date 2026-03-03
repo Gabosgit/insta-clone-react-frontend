@@ -19,7 +19,7 @@ export default defineConfig({
     // The 'fontFamily' property lets you define custom font stacks.
     fontFamily: {
       'sans': ['Inter', 'ui-sans-serif', ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"],
+      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"],
       'serif': ['Merriweather', 'serif'],
     },
     // You can also add custom spacing, sizes, and other design tokens here.
