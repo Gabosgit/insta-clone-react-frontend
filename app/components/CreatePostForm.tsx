@@ -12,10 +12,20 @@ export function CreatePostForm() {
   const [caption, setCaption] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [errors, setErrors] = useState<FormErrors>([]);
+  const [fileSizeError, setFileSizeError] = useState(false);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    setFileSizeError(false);
     if (file) {
+      if (file.size > 999 * 1024) {
+        console.error("File size exceeds 999kb limit.");
+        setFileSizeError(true);
+        setImageFile(null);
+        setPreviewUrl(null);
+        return;
+      } 
+      
       setImageFile(file);
       setPreviewUrl(URL.createObjectURL(file));
     } else {
@@ -24,7 +34,7 @@ export function CreatePostForm() {
     }
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     setErrors([]); // Clear previous errors
 
@@ -58,7 +68,8 @@ export function CreatePostForm() {
             onSubmit={handleSubmit}
             className="space-y-4"
         >
-            <div>
+          {/* Image Upload Field */}
+          <div>
             <label
                 htmlFor="image"
                 className="block text-sm font-medium text-gray-700 mb-1"
@@ -87,12 +98,19 @@ export function CreatePostForm() {
             )}
             {errors.find((e) => e.path[0] === "image") && (
                 <p className="mt-2 text-sm text-red-600">
-                {errors.find((e) => e.path[0] === "image")?.message}
+                  {errors.find((e) => e.path[0] === "image")?.message}
                 </p>
             )}
-            </div>
+            <p className={`${fileSizeError ? "text-red-600" : "text-gray-300"} mt-2 text-sm`}>
+              {
+                fileSizeError ? "File size exceeds 999kb limit." 
+                : "Maximum file size: 999kb."
+              }
+            </p>
+          </div>
 
-            <div>
+          {/* Caption Field */}
+          <div>
             <label
                 htmlFor="caption"
                 className="block text-sm font-medium text-gray-700 mb-1"
@@ -113,15 +131,15 @@ export function CreatePostForm() {
                 {errors.find((e) => e.path[0] === "caption")?.message}
                 </p>
             )}
-            </div>
+          </div>
 
-            <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
+          <button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             {isSubmitting ? "Creating..." : "Create Post"}
-            </button>
+          </button>
         </Form>
       </div>
   );
