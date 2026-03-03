@@ -1,56 +1,18 @@
-import * as reactRouter from 'react-router';
-import { redirect } from "react-router";
-import { CreatePostForm } from "~/components/CreatePostForm";
-import { api } from "~/services/api";
-import { createPostInputSchema } from "~/schemas/post.schema";
+import { CreateCard } from "~/components/CreateCard";
 
-export async function action({ request }: reactRouter.ActionFunctionArgs) {
-  const formData = await request.formData();
-  const caption = formData.get("caption")?.toString();
-  const imageFile = formData.get("image") as File;
-
-  // Client-side validation against Zod schema
-  const validationResult = createPostInputSchema.safeParse({
-    caption,
-    image: imageFile,
-  });
-
-  if (!validationResult.success) {
-    // You might want to return errors to the form, e.g., via `json`
-    // For simplicity, we'll just log and redirect for now.
-    console.error(
-      "Client-side validation failed:",
-      validationResult.error.issues,
-    );
-    return redirect("/create"); // Redirect back to the form
-  }
-
-  const payload = new FormData();
-  if (validationResult.data.caption) {
-    payload.append("caption", validationResult.data.caption);
-  }
-  if (validationResult.data.image) {
-    payload.append("file", validationResult.data.image); // 'file' is the field name backend expects
-  }
-
-  try {
-    await api.post("/posts", payload, {
-      headers: {
-        "Content-Type": "multipart/form-data", // Crucial for file uploads
-      },
-    });
-    return redirect("/profile/posts/grid"); // Redirect to posts grid after successful creation
-  } catch (error) {
-    console.error("Error creating post:", error);
-    // Handle API errors (e.g., show a toast message)
-    return { success: false, error: "Failed to create post." };
-  }
-}
-
-export default function CreatePostPage() {
+export default function CreateMenu() {
   return (
-    <div className="flex-grow h-full py-8">
-      <CreatePostForm />
+    <div className="grid grid-cols-2 w-full h-full gap-4 place-items-center">
+        <CreateCard 
+          itemType="Post" 
+          to="/profile/create/post"
+          text="Add a photo/video and text to create a post."
+        />
+        <CreateCard 
+          itemType="Reel" 
+          to="/profile/create/reel"
+          text="Add a video to create a reel."
+        />
     </div>
   );
 }
