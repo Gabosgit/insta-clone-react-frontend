@@ -6,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
   useRouteError,
+  useLocation,
 } from "react-router";
 import stylesheet from "./app.css?url";
 import SideNav from "./components/SideNav"
@@ -33,6 +34,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const location = useLocation();
+
+  // Check if you're on the create page
+  const isHomePage = location.pathname === "/home";
+  const isCreatePage = location.pathname === "/create";
+
+
+  
   return (
     <>
       <div className="fixed h-screen w-screen z-0
@@ -47,7 +56,7 @@ export default function App() {
 
         <SideNav/>
 
-        <div className="flex-1 flex flex-col w-2/3 z-10 bg-gray-800 p-16 rounded-3xl">
+        <div className={`flex-1 flex flex-col w-2/3 z-10 ${isHomePage || isCreatePage ? 'transparent' : 'bg-gray-800/50'} p-16 rounded-3xl`}>
           <Outlet />
         </div>
 
