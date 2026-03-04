@@ -9,11 +9,17 @@ export async function action({ request }: reactRouter.ActionFunctionArgs) {
   const caption = formData.get("caption")?.toString();
   const videoUrl = formData.get("videoUrl")?.toString();
 
+  for (const [key, value] of formData.entries()) {
+    console.log(key, value);
+  }
+  
+
   // Client-side validation against Zod schema
   const validationResult = createReelInputSchema.safeParse({
     caption,
-    video_url: videoUrl,
+    videoUrl,
   });
+  
 
   if (!validationResult.success) {
     // For simplicity, we'll just log and redirect for now.
@@ -25,21 +31,24 @@ export async function action({ request }: reactRouter.ActionFunctionArgs) {
     return redirect("/create"); // Redirect back to the form
   }
 
-  const payload = new FormData();
-  if (validationResult.data.caption) {
-    payload.append("caption", validationResult.data.caption);
-  }
-  if (validationResult.data.videoUrl) {
-    payload.append("video_url", validationResult.data.videoUrl); // 'file' is the field name backend expects
+  function extractYouTubeId(url: string) {
+    const match = url.match(
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/,
+    );
+    return match?.[1];
   }
 
+  const videoId = extractYouTubeId(validationResult.data.videoUrl);
+
   try {
-    await api.post("/reels", payload, {
-      headers: {
-        "Content-Type": "multipart/form-data", // Crucial for file uploads
-      },
+    await api.post("/reels", {
+      caption: validationResult.data.caption,
+      video_url: validationResult.data.videoUrl,
+      thumbnail_url: videoId
+      ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+      : "",
     });
-    return redirect("/profile/posts/grid"); // Redirect to posts grid after successful creation
+    return redirect("/profile/reels/grid"); // Redirect to posts grid after successful creation
   } catch (error) {
     console.error("Error creating reel:", error);
     // Handle API errors (e.g., show a toast message)
