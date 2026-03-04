@@ -4,6 +4,7 @@ export default function ProfileLayout() {
   const activeLinkStyle = {
     borderBottom: "2px solid black",
     fontWeight: "bold",
+    color: "black",
   };
 
   return (
