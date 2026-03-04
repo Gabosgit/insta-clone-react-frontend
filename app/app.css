@@ -23,3 +23,12 @@ footer {
   @apply
   bg-stone-100
 }
+
+.link {
+  @apply 
+    text-gray-700 
+    hover:text-gray-800 
+    hover:font-bold 
+    dark:text-gray-600 
+    dark:hover:text-gray-900;
+}
