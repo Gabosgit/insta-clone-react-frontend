@@ -13,16 +13,6 @@ export function CreateReelForm() {
   const [videoUrl, setVideoUrl] = useState("");
   const [errors, setErrors] = useState<FormErrors>([]);
 
-  const handleVideoUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (videoUrl) {
-      setVideoUrl(videoUrl);
-    } else {
-      setVideoUrl("");
-      setPreviewUrl(null);
-    }
-  };
-
   const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     setErrors([]); // Clear previous errors
@@ -39,8 +29,10 @@ export function CreateReelForm() {
     }
 
     // If validation passes, proceed with form submission
+
     const formData = new FormData();
     if (caption) formData.append("caption", caption);
+
     if (videoUrl) formData.append("video_url", videoUrl); // 'video_url' matches backend expected field name
 
     // Programmatically submit the form data using useNavigation's form ref
@@ -51,26 +43,26 @@ export function CreateReelForm() {
   return (
       <div className="max-w-md mx-auto mt-20 p-4 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-4 text-center">Create New Reel</h2>
-        <Form
+        <form
             method="post"
             encType="multipart/form-data"
             onSubmit={handleSubmit}
             className="space-y-4"
         >
-          {/* Image Upload Field */}
+          {/* Add Video link Field */}
           <div>
             <label
-                htmlFor="image"
+                htmlFor="videoUrl"
                 className="block text-sm font-medium text-gray-700 mb-1"
             >
                 Video
             </label>
             <input
                 type="text"
-                id="video"
-                name="video"
-                accept="video/*"
-                onChange={handleVideoUrlChange}
+                id="videoUrl"
+                name="videoUrl"
+                value={videoUrl}
+                onChange={e => setVideoUrl(e.target.value)}
                 className="block w-full text-sm text-gray-500
                 file:mr-4 file:py-2 file:px-4
                 file:rounded-full file:border-0
@@ -124,7 +116,7 @@ export function CreateReelForm() {
           >
             {isSubmitting ? "Creating..." : "Create Reel"}
           </button>
-        </Form>
+        </form>
       </div>
   );
 }
