@@ -3,19 +3,24 @@ import { Link } from "react-router-dom";
 
 export default function SideNav() {
     return (
-        <nav className='fixed left-0 z-50 h-full w-auto transparent border-t'>
+        <nav className='fixed group left-3 z-50 h-full w-auto transparent border-t'>
             <div className='flex flex-col justify-center h-full mx-auto font-medium'>
-                <div>
+                <div className='flex flex-col gap-1 bg-gray-800/50 rounded-xl'>
                     {resources.map((resource) => (
                         <Link
                             key={resource.name}
                             to={resource.href}
-                            className='px-5 py-3 bg-transparent rounded-sm flex items-center
+                            className='px-5 py-3 bg-transparent rounded-xl flex items-center
                             hover:bg-gray-500 dark:hover:bg-gray-500 transition-colors duration-200'
                         >
                             <p className="text-gray-50">
-                                <span className="text-xl pr-4">{resource.icon}</span>
-                                <span className="shadow-gray-900 shadow-2xl ">{resource.text}</span>
+                                <span className="text-xl">
+                                    {resource.icon}
+                                </span>
+                                <span className="hidden pl-3 shadow-gray-900 shadow-2xl 
+                                group-hover:inline transition-all duration-200">
+                                    {resource.text}
+                                </span>
                             </p>
                         </Link>
                     ))}
