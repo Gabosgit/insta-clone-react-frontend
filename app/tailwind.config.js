@@ -1,6 +1,7 @@
 import { defineConfig } from 'tailwindcss'
 
 /** @type {import('tailwindcss').Config} */
+
 export default defineConfig({
   // The 'content' array tells Tailwind which files to scan for class names.
   // This is crucial for tree-shaking and keeping your final CSS file small.
@@ -28,6 +29,10 @@ export default defineConfig({
       '2': '12px',
       '3': '16px',
     },
+    backgroundImage: {
+      'hero-pattern': "url('/images/instaCloneBG.png')",
+      'footer-texture': "url('/img/footer-texture.png')",
+    }
   },
   // Plugins are imported and added here.
   // To add a plugin, you would first install it, then import and add it here.
